@@ -14,9 +14,9 @@ class RotationString
      */
     public static function isRotation($s1, $s2)
     {
-        /** @TODO */
-
-        return false;
+        $res = $s1 . $s1;
+        
+        return isSubString($res, $s2);
     }
 
     public static function isSubString($s1, $s2)

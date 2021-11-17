@@ -45,7 +45,64 @@ class MaxiInteger
      */
     private function realSum($a, $b)
     {
-        /** @TODO */
+        $val = null;
+        $count = 0;
+        $result = "";
+        $valuea = $a->createReverseValue($a->getValue());
+        $valueb = $b->createReverseValue($b->getValue());
+        while (strlen($valuea) - 1 >= $count and strlen($valueb) - 1 >= $count)
+        {
+            $nb1 = ord($valuea[$count]) - ord('0') + ord($valueb[$count]) - ord('0');
+            if ($val != null)
+            {   
+                $nb1 = $nb1 + $val;
+                $val = null;
+            }
+            if ($nb1 >= 10)
+            {
+                $val = 1;
+                $nb1 = $nb1 - 10;
+            }
+            $result = $result . $nb1;
+            $count++;
+        }
+        while (strlen($valuea) - 1 >= $count)
+        {
+            $nb1 = ord($valuea[$count]) - ord('0');
+            if ($val != null)
+            {   
+                $nb1 = $nb1 + $val;
+                $val = null;
+            }
+            if ($nb1 >= 10)
+            {
+                $val = 1;
+                $nb1 = $nb1 - 10;
+            }
+            $result = $result . $nb1;
+            $count++;
+        }
+        while (strlen($valueb) - 1 >= $count)
+        {
+            $nb1 = ord($valueb[$count]) - ord('0');
+            if ($val != null)
+            {   
+                $nb1 = $nb1 + $val;
+                $val = null;
+            }
+            if ($nb1 >= 10)
+            {
+                $val = 1;
+                $nb1 = $nb1 - 10;
+            }
+            $result = $result . $nb1;
+            $count++;
+        }
+        if ($val != null)
+        {
+            $result = $result . $val;
+        }
+        return new MaxiInteger(strrev($result));
     }
 
     private function setValue($value)

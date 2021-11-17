@@ -147,10 +147,44 @@ class Steg
      */
     public function show($dst)
     {
-        $msg = '000010000100001000000';
+        $msg = '';
+
+        $srcImg = ImageCreateFromPng($dst);
+        list($width, $height) = getimagesize($dst);
+
+        $stop = 0;
+
+        for ($i = 0; $i < $width; $i++) {
+            for ($j = 0; $j < $height; ++$j) {
+                $rgb = imagecolorat($srcImg, $i, $j);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+                
+                if ($stop <= 6) {
+                    // La valeur est stocké dans le bit de poids faible de la couleur bleu.
+                    // On regarde la valeur binaire du bleu
+                    $blue = decbin($b);
+
+                    // On remplace le dernier bit (bit de poids faible) par la valeur souhaitée.
+                    $char = $blue[-1];
+
+                    $msg = $msg . $char;
+
+                    // On convertit le tout pour que cela soit integrable dans une image
+                    // On gère ici la fin du "planquage" :)
+                    if ('1' === $char) {
+                        ++$stop;
+                    } else {
+                        $stop = 0;
+                    }
+                }
+            }
+        }
+
         $this->bin2Text($msg);
 
-        return true;
+        return $msg;
     }
 
     /**

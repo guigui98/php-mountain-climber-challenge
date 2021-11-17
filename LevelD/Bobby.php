@@ -13,6 +13,7 @@ class Bobby
         $this->computeTotal();
     }
 
+
     /**
      * @TODO
      *
@@ -20,12 +21,37 @@ class Bobby
      *
      * @return bool|int|string
      */
+
     public function giveMoney($price)
     {
-        /** @TODO */
-
-        return false;
+        if ($this->total < $price)
+        {
+            return false;
+        }
+        $refund = 0;
+        while ($refund < $price)
+        {
+            $maxi = $this->computeMax();
+            $index = array_search($maxi, $this->wallet);
+            $refund += $maxi;
+            unset($this->wallet[$index]);
+        }
+        return true;
     }
+
+    private function computeMax()
+    {
+    $max = 0;
+    foreach ($this->wallet as $element) {
+        if (is_numeric($element) && $element > $max)
+        {
+            $max = $element;
+        }
+      }
+      return $max;
+    }
+
+
 
     /**
      * This function updates the amount of your wallet

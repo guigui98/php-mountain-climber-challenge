@@ -15,8 +15,8 @@ class RotationString
     public static function isRotation($s1, $s2)
     {
         $res = $s1 . $s1;
-        
-        return isSubString($res, $s2);
+        $res = strpos($res, $s2);
+        return $res;
     }
 
     public static function isSubString($s1, $s2)

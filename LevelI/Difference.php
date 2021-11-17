@@ -33,14 +33,21 @@ class Difference
         // @ TODO
         $lenA = strlen($this->a);
         $lenB = strlen($this->b);
-
+        for ($i = 0; $i <= $lenA; $i++)
+        {
+            $matrix[$i][0] = $i;
+        }
+        for ($j = 0; $j <= $lenB; $j++)
+        {
+            $matrix[0][$j] = $j;
+        }
         for ($i = 1; $i <= $lenA; ++$i) {
             for ($j = 1; $j <= $lenB; ++$j) {
                 $c = ($this->a[$i - 1] === $this->b[$j - 1]) ? 0 : 1;
-                $matrix[$i][$j] = 0;
+               // $matrix[$i][$j] = 0;
+               $matrix[$i][$j] = min($matrix[$i - 1][$j] + 1, $matrix[$i][$j - 1] + 1, $matrix[$i - 1][$j - 1] + $c);
             }
         }
-
         return $matrix[$lenA][$lenB];
     }
 }
